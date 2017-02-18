@@ -52,5 +52,4 @@ activate :deploy do |deploy|
   # deploy.port  = 5309 # ssh port, default: 22
   # deploy.clean = true # remove orphaned files on remote host, default: false
   # deploy.flags = '-rltgoDvzO --no-p --del' # add custom flags, default: -avz
-  deploy.flags = '-avz -o StrictHostKeyChecking=no' 
 end
