@@ -2,8 +2,10 @@ language: ruby
 rvm:
   - 2.2.2
 before_install:
+  - sudo apt-get install gpg
   - gem update --system
   - gem --version
   - ssh-keyscan games.alexecollins.com >> ~/.ssh/known_hosts
+  - gpg -d --passphrase-fd 0  --batch --yes id_rsa.gpg > id_rsa
 script: bundler exec middleman deploy --build-before
 cache: bundler
