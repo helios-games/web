@@ -4,5 +4,6 @@ rvm:
 before_install:
   - gem update --system
   - gem --version
+  - ssh-keyscan games.alexecollins.com >> ~/.ssh/known_hosts
 script: bundler exec middleman deploy --build-before
 cache: bundler
