@@ -10,13 +10,14 @@ body {
 
 .logo img {
   margin-top: 6em;
+  margin-bottom: 3em;
 }
 
 h1 {
   color: rgba(0,0,0,0.5);
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.8em;
-  font-weight: 400;
+  font-weight: 500;
   margin: 0;
 }
 
@@ -24,11 +25,11 @@ h1 {
   margin: 3em 0;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.1em;
-  font-weight: 300;
+  font-weight: 500;
 
   a {
-    border: 1px solid white;
-    border-radius: 3px;
+    border: 2px solid #fee;
+    border-radius: 5px;
     padding: 0.75em 0.7em;
     color: white;
     text-decoration: none;
