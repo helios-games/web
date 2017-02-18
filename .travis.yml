@@ -6,7 +6,7 @@ install:
   - gem update --system
   - gem --version
   - ssh-keyscan games.alexecollins.com >> ~/.ssh/known_hosts
-  - echo $KEY | gpg -d --passphrase-fd 0  --batch --yes id_rsa.gpg >> ~/.ssh/id_rsa
-  - chmod 400 ~/.ssh/id_rsa
+  - echo $KEY | gpg -d --passphrase-fd 0  --batch --yes id_rsa.gpg >> id_rsa
+  - chmod 400 id_rsa
 script: bundler exec middleman deploy --build-before
 cache: bundler

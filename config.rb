@@ -16,6 +16,8 @@ page '/*.txt', layout: false
 # proxy "/this-page-has-no-template.html", "/template-file.html", locals: {
 #  which_fake_page: "Rendering a fake page with a local variable" }
 
+ignore 'api'
+
 # General configuration
 
 # Reload the browser automatically whenever files change
@@ -52,4 +54,5 @@ activate :deploy do |deploy|
   # deploy.port  = 5309 # ssh port, default: 22
   # deploy.clean = true # remove orphaned files on remote host, default: false
   # deploy.flags = '-rltgoDvzO --no-p --del' # add custom flags, default: -avz
+  deploy.flags = '-avz -e "ssh -i id_rsa"'
 end
