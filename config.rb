@@ -37,8 +37,19 @@ end
 # Build-specific configuration
 configure :build do
   # Minify CSS on build
-  # activate :minify_css
+  activate :minify_css
 
   # Minify Javascript on build
-  # activate :minify_javascript
+  activate :minify_javascript
+end
+
+activate :deploy do |deploy|
+  deploy.deploy_method = :rsync
+  deploy.host          = 'games.alexecollins.com'
+  deploy.path          = '/var/www/html'
+  # Optional Settings
+  # deploy.user  = 'tvaughan' # no default
+  # deploy.port  = 5309 # ssh port, default: 22
+  # deploy.clean = true # remove orphaned files on remote host, default: false
+  # deploy.flags = '-rltgoDvzO --no-p --del' # add custom flags, default: -avz
 end
