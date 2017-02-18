@@ -1,7 +1,7 @@
 language: ruby
 rvm:
   - 2.2.2
-before_install:
+install:
   - sudo apt-get -y install gnupg
   - gem update --system
   - gem --version
