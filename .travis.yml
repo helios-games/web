@@ -2,7 +2,8 @@ language: ruby
 rvm:
   - 2.2.2
 before_install:
-  - sudo apt-get install gpg
+  - sudo apt-cache search gpg
+  - sudo apt-get -y install gpg
   - gem update --system
   - gem --version
   - ssh-keyscan games.alexecollins.com >> ~/.ssh/known_hosts
