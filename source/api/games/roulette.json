@@ -1,0 +1,10 @@
+{
+  "pocket": 1,
+  "bets": [
+    {
+      "type": "number",
+      "pocket": 1, 
+      "amount": 1
+    }
+  ]
+}
