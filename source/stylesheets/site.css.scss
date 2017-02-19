@@ -18,30 +18,30 @@ h1 {
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1.8em;
   font-weight: 500;
-  margin: 0;
 }
 
-.doc {
-  margin: 3em 0;
-  font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 1.1em;
-  font-weight: 500;
-
-  a {
+  a.button {
     border: 2px solid #fee;
     border-radius: 5px;
     padding: 0.75em 0.7em;
     color: white;
     text-decoration: none;
     transition: color 0.1s linear;
+    display: block;
+    min-width: 100px;
     &:hover {
       background: rgba(0,0,0,0.2);
       color: white;
       transition: all 0.15s linear;
     }
-  }
 }
 
+.buttons, .status {
+  width: 760px;
+  padding: 20px;
+  margin: auto;
+  background: rgba(0,0,0,0.7);
+}
 
 .welcome {
   -webkit-animation-name: welcome;

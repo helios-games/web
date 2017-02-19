@@ -6,17 +6,41 @@
     <meta content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no" name="viewport">
 
     <!-- Use title if it's in the page YAML frontmatter -->
-    <title><%= current_page.data.title || "Helis Games" %></title>
+    <title><%= current_page.data.title %></title>
 
     <link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
 
     <%= stylesheet_link_tag :site %>
     <%= javascript_include_tag :all %>
     <%= javascript_include_tag "jquery-3.1.1.min.js" %>
-    <%= javascript_include_tag "phaser.min.js" %>
+    <%= javascript_include_tag "core.js" %>
   </head>
 
   <body class="<%= page_classes %>">
+      <div id="status" class="status">
+        <table>
+          <tr>
+            <td>
+              <a href="/"><img src="/images/logo.png"/></a>
+            </td>
+            <td>
+              Balance: <span id="balance"></span>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <div id="canvas">
+      </div>
+      <div id="buttons" class="buttons">
+        <table>
+          <tr>
+            <td><a class="button" href="javascript:core.setCoin(0.01);">1p</a></td>
+            <td><a class="button" href="javascript:core.setCoin(0.1);">10p</a></td>
+            <td><a class="button" href="javascript:core.setCoin(1);">1.00</a></td>
+            <td><a class="button" href="javascript:core.play();" id="play">Play</a></td>
+          </tr>
+        </table>
+      </div>
     <%= yield %>
   </body>
 </html>
