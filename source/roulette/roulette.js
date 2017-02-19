@@ -26,7 +26,9 @@ function create() {
   game.scale.pageAlignVeritcally = true;
   game.scale.refresh();
 
-  game.add.image(0,0,"bg")
+  var bg = game.add.sprite(0,0,"bg")
+  bg.inputEnabled = true;
+  bg.events.onInputDown.add(onDown, this);
 
   var style = { font: "16px Helvetica", fill: "#fff",
         align: "right", boundsAlignH: "left",      boundsAlignV: "top"};
@@ -38,20 +40,28 @@ function create() {
 
   var style = { font: "16px Helvetica", fill: "#fff",align: "center"};
 
-  var y = 370;
-  label(this.game, 280, y, "button", "Black", style,function() {
-    $.post("/api/games/roulette/bets/black.json?amount=" + core.coin)
-      .done(function(data) {core.setBalance(data.balance)})
-      .fail(function(data) {alert("Failed to place bet " + data);});
-    }, this, 1, 0, 2);
+  var y = 297;
+  label(this.game, 547, y, "button", "Black", style,placeBlackBet, this, 1, 0, 2);
 
-  label(this.game, 400, y, "button", "Red", style,function() {
-    $.post("/api/games/roulette/bets/red.json?amount=" + core.coin)
-      .done(function(data) {core.setBalance(data.balance)})
-      .fail(function(data) {alert("Failed to place bet " + data);});
-  }, this, 1, 0, 2);
+  label(this.game, 461, y, "button", "Red", style, placeRedBet, this, 1, 0, 2);
 
    core.setPlayText("Spin!")
+}
+
+function onDown(sprite, pointer) {
+  console.log(1)
+ // do something wonderful here
+}
+
+function placeBlackBet() {
+  $.post("/api/games/roulette/bets/black.json?amount=" + core.coin)
+    .done(function(data) {core.setBalance(data.balance)})
+    .fail(function(data) {alert("Failed to place bet " + data);});
+}
+function placeRedBet() {
+  $.post("/api/games/roulette/bets/red.json?amount=" + core.coin)
+    .done(function(data) {core.setBalance(data.balance)})
+    .fail(function(data) {alert("Failed to place bet " + data);});
 }
 
 function play () {
