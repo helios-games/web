@@ -51,6 +51,7 @@ activate :deploy do |deploy|
   deploy.path          = '/var/www/html'
   # Optional Settings
   # deploy.user  = 'tvaughan' # no default
+  deploy.user  = 'root'
   # deploy.port  = 5309 # ssh port, default: 22
   # deploy.clean = true # remove orphaned files on remote host, default: false
   # deploy.flags = '-rltgoDvzO --no-p --del' # add custom flags, default: -avz
