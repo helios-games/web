@@ -61,24 +61,26 @@ function listener(sprite, pointer) {
   $.each(
     [
       [matcher(462,301,544,329), placeRedBet],
-      [matcher(552,297,628,326), placeBlackBet]
+      [matcher(552,297,628,326), placeBlackBet],
+      [matcher(375,153,715,258), placeNumberBet]
     ],
     function(i,v) {
       var m = v[0](pointer.x, pointer.y);
       if (m) {
         var fn = v[1];
-        console.log("fn "+fn);
+        // console.log("fn "+fn);
         fn(pointer);
       }
     }
   );
 }
 
-function placeBet(type, pointer) {
+function placeBet(type, pointer, options) {
+  options = options || {};
   var chip = game.add.image(wallet.x,wallet.y, "chip")
   chip.anchor.set(0.5)
   game.add.tween(chip).to({x:pointer.x,y:pointer.y},250).start();
-  $.post("/api/games/roulette/bets/" + type + ".json?amount=" + core.coin)
+  $.post("/api/games/roulette/bets/" + type + ".json?amount=" + core.coin + "&number=" + options.number)
     .done(function(data) {
       chips.push(chip);
       core.setBalance(data.balance)
@@ -94,6 +96,20 @@ function placeBlackBet(pointer) {
 }
 function placeRedBet(pointer) {
   placeBet("red", pointer)
+}
+function placeNumberBet(pointer) {
+  var x1=375
+  var y1=153
+  var x2=715
+  var y2=258
+
+  var x = parseInt(12 * (pointer.x - x1) / (x2 - x1));
+  var y = 3 - parseInt(3 * (pointer.y - y1) / (y2 - y1));
+  var number = x * 3 + y;
+
+  console.log("x " + x + ", y " + y + ", number " + number)
+
+  placeBet("number", pointer, {number: number})
 }
 
 function play () {
