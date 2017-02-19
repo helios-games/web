@@ -7,16 +7,6 @@ function preload() {
 
 var pocket;
 
-function label(game, x, y, key, text, style, callback, callbackContext, overFrame, outFrame, downFrame, upFrame){
-  var button =  game.add.button(x, y, key,  callback, callbackContext, overFrame, outFrame, downFrame, upFrame);
-  style.wordWrap =  true;
-  style.wordWrapWidth =  button.width;
-  var text = game.add.text(Math.floor(button.x + button.width / 2), Math.floor(button.y + button.height / 2), text, style);
-  text.anchor.set(0.5);
-  return {button: button, text: text};
-};
-
-
 function setPocket(number) {
   pocket.setText(parseInt(number))
 }
@@ -26,9 +16,13 @@ function create() {
   game.scale.pageAlignVeritcally = true;
   game.scale.refresh();
 
-  var bg = game.add.sprite(0,0,"bg")
-  bg.inputEnabled = true;
-  bg.events.onInputDown.add(onDown, this);
+  var image = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
+
+   image.anchor.set(0.5);
+   image.inputEnabled = true;
+   image.events.onInputDown.add(listener, this);
+
+   text = game.add.text(250, 16, '', { fill: '#ffffff' });
 
   var style = { font: "16px Helvetica", fill: "#fff",
         align: "right", boundsAlignH: "left",      boundsAlignV: "top"};
@@ -40,16 +34,32 @@ function create() {
 
   var style = { font: "16px Helvetica", fill: "#fff",align: "center"};
 
-  var y = 297;
-  label(this.game, 547, y, "button", "Black", style,placeBlackBet, this, 1, 0, 2);
-
-  label(this.game, 461, y, "button", "Red", style, placeRedBet, this, 1, 0, 2);
-
-   core.setPlayText("Spin!")
+  core.setPlayText("Spin!")
 }
 
-function onDown(sprite, pointer) {
-  console.log(1)
+function matcher(x1,y1,x2,y2) {
+  return function(x,y) {
+    return x > x1 && x < x2 && y > y1 && y < y2
+  }
+}
+
+function listener(sprite, pointer) {
+  console.log(pointer.x+"," +pointer.y)
+  $.each(
+    [
+      [matcher(462,301,544,329), placeRedBet],
+      [matcher(552,297,628,326), placeBlackBet]
+    ],
+    function(i,v) {
+      var m = v[0](pointer.x, pointer.y);
+      if (m) {
+        var fn = v[1];
+        console.log("fn "+fn);
+        fn();
+      }
+    }
+  );
+
  // do something wonderful here
 }
 
