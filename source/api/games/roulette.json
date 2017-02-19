@@ -1,9 +1,9 @@
 {
-  "pocket": 1,
+  "pocket": 0,
   "bets": [
     {
       "type": "number",
-      "pocket": 1, 
+      "pocket": 1,
       "amount": 1
     }
   ]
