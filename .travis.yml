@@ -1,8 +1,0 @@
-language: ruby
-rvm:
-  - 2.2.2
-install:
-  - gem update --system
-  - gem --version
-script: bundler exec middleman build
-cache: bundler
