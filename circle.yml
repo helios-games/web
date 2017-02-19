@@ -6,3 +6,4 @@ deployment:
     branch: master
     commands:
     - bundle exec middleman deploy
+    - "curl -u $CIRCLE_TOKEN: -X POST https://circleci.com/api/v1.1/proj/github/helios-games/smoke/tree/master"
