@@ -1,6 +1,9 @@
 compile:
   override:
     - bundle exec middleman build
+test:
+  override:
+    - "true"
 deployment:
   prod:
     branch: master
