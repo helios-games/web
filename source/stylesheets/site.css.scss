@@ -1,8 +1,25 @@
 @charset "utf-8";
 @import "normalize";
 
+@mixin gradient($from, $to) {
+  /* fallback/image non-cover color */
+  background-color: $from;
+
+  /* Firefox 3.6+ */
+  background-image: -moz-linear-gradient($from, $to);
+
+  /* Safari 4+, Chrome 1+ */
+  background-image: -webkit-gradient(linear, 0% 0%, 0% 100%, from($from), to($to));
+
+  /* Safari 5.1+, Chrome 10+ */
+  background-image: -webkit-linear-gradient($from, $to);
+
+  /* Opera 11.10+ */
+  background-image: -o-linear-gradient($from, $to);
+}
+
 body {
-  background: #ECC561;
+  background: black;
   text-align: center;
   font-family: "Lato", "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 1em;
@@ -20,27 +37,31 @@ h1 {
   font-weight: 500;
 }
 
-  a.button {
-    border: 2px solid #fee;
-    border-radius: 5px;
-    padding: 0.75em 0.7em;
+a.button {
+  border: 2px solid gold;
+  border-radius: 5px;
+  padding: 0.75em 1em;
+  color: white;
+  @include gradient(purple, darken(purple, 20%));
+  text-decoration: none;
+  transition: color 0.1s linear;
+  &:hover {
     color: white;
-    text-decoration: none;
-    transition: color 0.1s linear;
-    display: block;
-    min-width: 100px;
-    &:hover {
-      background: rgba(0,0,0,0.2);
-      color: white;
-      transition: all 0.15s linear;
-    }
+    transition: all 0.15s linear;
+  }
 }
 
 .buttons, .status {
+  color: white;
   width: 760px;
   padding: 20px;
   margin: auto;
-  background: rgba(0,0,0,0.7);
+}
+.status {
+  @include gradient(white, black);
+}
+.buttons {
+  @include gradient(black, white);
 }
 
 .welcome {

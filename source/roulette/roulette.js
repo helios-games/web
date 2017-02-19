@@ -1,6 +1,7 @@
 var game = new Phaser.Game(800, 450, Phaser.AUTO, 'canvas', { preload: preload, create: create, update: update });
 
 function preload() {
+  game.load.image('bg', '/roulette/images/bg.png');
   game.load.spritesheet('button', '/images/button_sprite_sheet.png', 120, 44);
 }
 
@@ -24,6 +25,8 @@ function create() {
   game.scale.pageAlignHorizontally = true;
   game.scale.pageAlignVeritcally = true;
   game.scale.refresh();
+
+  game.add.image(0,0,"bg")
 
   var style = { font: "16px Helvetica", fill: "#fff",
         align: "right", boundsAlignH: "left",      boundsAlignV: "top"};
