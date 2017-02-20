@@ -205,8 +205,8 @@ function spin() {
       core.setBalance(data.balance);
       setPocket(data.pocket);
     })
-    .fail(function(data) {
-      alert("Failed to spin " + data);
+    .fail(function(x,t,e) {
+      alert("Failed to spin: " + e);
     });
 }
 
