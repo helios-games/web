@@ -9,6 +9,7 @@ function preload() {
   game.load.image('bg', '/roulette/images/bg.png');
   game.load.image('chip', '/roulette/images/chip.png');
   game.load.image('ball', '/roulette/images/ball.png');
+  game.load.image('coin', '/roulette/images/coin.png');
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.setScreenSize();
 }
@@ -190,11 +191,16 @@ function spin() {
     })
     .done(function(data) {
       $.each(chips, function(i, v) {
-        var tween = game.add.tween(v).to(wallet, 250)
-        tween.onComplete.add(function() {
-          v.kill();
-        });
-        tween.start();
+
+        var emitter = game.add.emitter(0, 0, 100);
+
+        emitter.makeParticles('coin');
+        emitter.gravity = 1000;
+
+        emitter.x = v.x;
+        emitter.y = v.y;
+        v.kill();
+        emitter.start(true, 1000, null, 5);
       });
       core.setBalance(data.balance);
       setPocket(data.pocket);
