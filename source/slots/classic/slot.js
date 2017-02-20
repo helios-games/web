@@ -44,7 +44,7 @@ function random() {
 function spin() {
   random();
   $.ajax({
-      type: "PUT",
+      type: "POST",
       url: "/api/games/slots/classic/spins.json"
     })
     .done(function(data) {
