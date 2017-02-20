@@ -29,7 +29,7 @@ var core = {
     }
   },
   updateBalance: function() {
-    $.getJSON("/api/service/wallet.json", function(data) {core.setBalance(data.balance)});
+    $.getJSON("/api/service/wallets/0.json", function(data) {core.setBalance(data.balance)});
   },
   play: function() {
     play();
