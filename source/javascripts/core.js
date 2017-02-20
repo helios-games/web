@@ -1,6 +1,7 @@
 
 var core = {
   coin: 1,
+  buttonTextToFn: {},
   setCoin: function (coin) {
     core.coin = coin;
   },
@@ -15,17 +16,18 @@ var core = {
         var step = step  != undefined ? step : parseFloat((amount - balance) / 10);
         $("#balance").text(Math.min(amount, balance + step));
         if (amount != balance) {
-          setTimeout(function(){core.setBalance(amount, step)}, 50);
+          setTimeout(function(){core.setBalance(amount, step)}, 100);
         }
     }
-  },
-  setPlayText: function (text) {
-    $("#play").text(text)
   },
   updateBalance: function() {
     $.getJSON("/api/service/wallet.json", function(data) {core.setBalance(data.balance)});
   },
   play: function() {
     play();
+  },
+  addButton: function(text, fn) {
+    core.buttonTextToFn[text] = fn;
+    $("#buttons").append("<a class=\"button\" href=\"javascript:core.buttonTextToFn['" + text + "']();\">" + text + "</a>")
   }
 }

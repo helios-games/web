@@ -81,8 +81,8 @@ function create() {
   ball = game.add.sprite(wheel.x, wheel.y, 'ball');
   ball.anchor.set(0.5);
 
-  core.setPlayText("Spin!")
-  core.updateBalance()
+  core.addButton("Spin!", spin);
+  core.updateBalance();
 
   $.getJSON("/api/games/roulette.json", function(data) {
     setPocket(data.pocket);
@@ -175,7 +175,7 @@ function placeNumberBet(pointer) {
   })
 }
 
-function play() {
+function spin() {
   $.ajax({
       type: "PUT",
       url: "/api/games/roulette/spin.json"
