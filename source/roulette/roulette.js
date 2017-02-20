@@ -14,7 +14,10 @@ var pockets = [
 ];
 var chips = [];
 var wheel = { x: 162, y: 227};
-var wallet = {x:400, y:500}
+var wallet = {x:400, y:500};
+var red = {x:462,y:301,r:544,b:329,w:544-462,h:329-301};
+var black = {x:552,y:297,r:628,b:326, w:628-552,h:326-297};
+var numbers = {x:375,y:153,r:715,b:258,w:715-375,h:258-153};
 
 function setPocket(number) {
   console.log("pocket number " + number)
@@ -47,7 +50,26 @@ function create() {
  core.setPlayText("Spin!")
  core.updateBalance()
 
- $.getJSON("/api/games/roulette.json", function(data) {setPocket(data.pocket)});
+ $.getJSON("/api/games/roulette.json", function(data) {
+   setPocket(data.pocket);
+   $.each(data.bets, function(i,bet) {
+     switch (bet.type) {
+       case "number":
+       console.log("bet.pocket " + bet.pocket)
+        var x =  numbers.x + ((bet.pocket -1) / 3 + 0.5) * (numbers.w / 12);
+        var y =  numbers.y + ( 2 - (bet.pocket-1) % 3 + 0.5) * (numbers.h / 3);
+
+        addChip(x, y)
+         break;
+         case "red":
+          addChip(red.x+red.w/2, red.y+red.h/2)
+         break;
+         case "black":
+          addChip(black.x+black.w/2, black.y+black.h/2)
+         break;
+     }
+   })
+ });
 }
 
 function matcher(x1,y1,x2,y2) {
@@ -60,9 +82,9 @@ function listener(sprite, pointer) {
   console.log(pointer.x+"," +pointer.y)
   $.each(
     [
-      [matcher(462,301,544,329), placeRedBet],
-      [matcher(552,297,628,326), placeBlackBet],
-      [matcher(375,153,715,258), placeNumberBet]
+      [matcher(red.x,red.y,red.r,red.b), placeRedBet],
+      [matcher(black.x,black.y,black.r,black.b), placeBlackBet],
+      [matcher(numbers.x,numbers.y,numbers.r,numbers.b), placeNumberBet]
     ],
     function(i,v) {
       var m = v[0](pointer.x, pointer.y);
@@ -75,11 +97,16 @@ function listener(sprite, pointer) {
   );
 }
 
-function placeBet(type, pointer, options) {
-  options = options || {};
+function addChip(x,y) {
   var chip = game.add.image(wallet.x,wallet.y, "chip")
   chip.anchor.set(0.5)
-  game.add.tween(chip).to({x:pointer.x,y:pointer.y},250).start();
+  game.add.tween(chip).to({x:x,y:y},250).start();
+  return chip;
+}
+
+function placeBet(type, location, options) {
+  options = options || {};
+  var chip = addChip(location.x, location.y);
   $.post("/api/games/roulette/bets/" + type + ".json?amount=" + core.coin + "&number=" + options.number)
     .done(function(data) {
       chips.push(chip);
@@ -98,13 +125,8 @@ function placeRedBet(pointer) {
   placeBet("red", pointer)
 }
 function placeNumberBet(pointer) {
-  var x1=375
-  var y1=153
-  var x2=715
-  var y2=258
-
-  var x = parseInt(12 * (pointer.x - x1) / (x2 - x1));
-  var y = 3 - parseInt(3 * (pointer.y - y1) / (y2 - y1));
+  var x = parseInt(12 * (pointer.x - numbers.x) / numbers.w);
+  var y = 3 - parseInt(3 * (pointer.y - numbers.y) / numbers.h);
   var number = x * 3 + y;
 
   console.log("x " + x + ", y " + y + ", number " + number)

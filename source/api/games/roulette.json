@@ -3,8 +3,14 @@
   "bets": [
     {
       "type": "number",
-      "pocket": 1,
+      "pocket": 4,
       "amount": 1
+    },
+    {
+      "type": "red"
+    },
+    {
+      "type": "black"
     }
   ]
 }
