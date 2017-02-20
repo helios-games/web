@@ -43,10 +43,7 @@ function random() {
 }
 function spin() {
   random();
-  $.ajax({
-      type: "POST",
-      url: "/api/games/slots/classic/spins.json"
-    })
+  $.post("/api/games/slots/classic/spins.json", {amount: core.coin})
     .done(function(data) {
       $.each(symbols, function(i,symbol) {
         symbol.frame = data.stops[i];
