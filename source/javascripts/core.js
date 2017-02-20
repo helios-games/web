@@ -4,8 +4,20 @@ var core = {
   setCoin: function (coin) {
     core.coin = coin;
   },
-  setBalance: function (amount) {
-    $("#balance").text(amount)
+  getBalance: function() {
+    return parseFloat($("#balance").text());
+  },
+  setBalance: function (amount, step) {
+    var balance = this.getBalance();
+    if (isNaN(balance) || amount < balance) {
+      $("#balance").text(amount)
+    } else {
+        var step = step  != undefined ? step : parseFloat((amount - balance) / 10);
+        $("#balance").text(Math.min(amount, balance + step));
+        if (amount != balance) {
+          setTimeout(function(){core.setBalance(amount, step)}, 50);
+        }
+    }
   },
   setPlayText: function (text) {
     $("#play").text(text)
