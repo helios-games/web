@@ -1,15 +1,19 @@
-var game = new Phaser.Game(800, 450, Phaser.AUTO, 'canvas', {
+var game = new Phaser.Game(core.canvas.getWidth(), core.canvas.getHeight(), Phaser.AUTO, 'canvas', {
   preload: preload,
   create: create,
-  update: update
+  update: update,
+  render: render
 });
 
 function preload() {
   game.load.image('bg', '/roulette/images/bg.png');
   game.load.image('chip', '/roulette/images/chip.png');
   game.load.image('ball', '/roulette/images/ball.png');
+  game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
+  game.scale.setScreenSize();
 }
 
+var bg;
 var ball;
 // 37 == 00
 // starts at 180 degrees and goes clockwise
@@ -68,13 +72,16 @@ function setPocket(number) {
 }
 
 function create() {
-  game.scale.pageAlignHorizontally = true;
-  game.scale.pageAlignVeritcally = true;
-  game.scale.refresh();
 
-  var bg = game.add.sprite(game.world.centerX, game.world.centerY, 'bg');
+  bg = game.add.sprite(400, 225, 'bg');
 
   bg.anchor.set(0.5);
+
+  var x = (800-game.width)/2;
+  var y = (450-game.height)/2;
+
+ game.world.setBounds(x, y, 0, 0);
+
   bg.inputEnabled = true;
   bg.events.onInputDown.add(listener, this);
 
@@ -82,7 +89,6 @@ function create() {
   ball.anchor.set(0.5);
 
   core.addButton("Spin!", spin);
-  core.updateBalance();
 
   $.getJSON("/api/games/roulette.json", function(data) {
     setPocket(data.pocket);
@@ -104,6 +110,8 @@ function create() {
       }
     })
   });
+
+  core.ready();
 }
 
 function matcher(x1, y1, x2, y2) {
@@ -112,8 +120,8 @@ function matcher(x1, y1, x2, y2) {
   }
 }
 
-function listener(sprite, pointer) {
-  console.log(pointer.x + "," + pointer.y)
+function listener(sprite) {
+  var pointer={x:game.input.x-game.world.x,y:game.input.y-game.world.y};
   $.each(
     [
       [matcher(red.x, red.y, red.r, red.b), placeRedBet],
@@ -196,4 +204,10 @@ function spin() {
     });
 }
 
-function update() {}
+function update() {
+
+}
+
+function render() {
+  // game.debug.cameraInfo(game.camera, 32, 32);
+}

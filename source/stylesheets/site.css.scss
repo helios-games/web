@@ -51,17 +51,16 @@ a.button {
   }
 }
 
-.buttons, .status {
-  color: white;
-  width: 760px;
-  padding: 20px;
-  margin: auto;
-}
+
 .status {
   @include gradient(white, black);
+  color: white;
+  height: 60px;
 }
 .buttons {
   @include gradient(black, white);
+  padding: 20px;
+  height: 60px;
 }
 
 .welcome {
