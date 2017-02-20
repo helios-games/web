@@ -186,8 +186,8 @@ function placeNumberBet(pointer) {
 
 function spin() {
   $.ajax({
-      type: "PUT",
-      url: "/api/games/roulette/spin.json"
+      type: "POST",
+      url: "/api/games/roulette/spins.json"
     })
     .done(function(data) {
       $.each(chips, function(i, v) {
