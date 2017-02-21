@@ -202,6 +202,7 @@ function spin() {
         v.kill();
         emitter.start(true, 1000, null, 5);
       });
+      chips = [];
       core.setBalance(data.balance);
       setPocket(data.pocket);
     })
