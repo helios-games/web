@@ -185,10 +185,7 @@ function placeNumberBet(pointer) {
 }
 
 function spin() {
-  $.ajax({
-      type: "POST",
-      url: core.api("/games/roulette/spins")
-    })
+  $.post(core.api("/games/roulette/spins"), {amount: core.coin})
     .done(function(data) {
       $.each(chips, function(i, v) {
 
