@@ -38,7 +38,7 @@ var core = {
     $("#buttons").append("<a class=\"button\" href=\"javascript:core.buttonTextToFn['" + text + "']();\">" + text + "</a>")
   },
   handleError: function(x,t,e) {
-    alert(x.responseJSON ? x.responseJSON : e);
+    alert(e.responseJSON ? e.responseJSON.message : t);
   },
   ready: function() {
     core.updateBalance();
