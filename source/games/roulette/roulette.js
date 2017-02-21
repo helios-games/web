@@ -6,10 +6,10 @@ var game = new Phaser.Game(core.canvas.getWidth(), core.canvas.getHeight(), Phas
 });
 
 function preload() {
-  game.load.image('bg', '/roulette/images/bg.png');
-  game.load.image('chip', '/roulette/images/chip.png');
-  game.load.image('ball', '/roulette/images/ball.png');
-  game.load.image('coin', '/roulette/images/coin.png');
+  game.load.image('bg', '/games/roulette/images/bg.png');
+  game.load.image('chip', '/games/roulette/images/chip.png');
+  game.load.image('ball', '/games/roulette/images/ball.png');
+  game.load.image('coin', '/games/roulette/images/coin.png');
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.setScreenSize();
 }

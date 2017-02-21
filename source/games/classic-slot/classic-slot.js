@@ -6,8 +6,8 @@ var game = new Phaser.Game(core.canvas.getWidth(), core.canvas.getHeight(), Phas
 });
 
 function preload() {
-  game.load.image('bg', '/slots/classic/images/bg.png');
-  game.load.spritesheet('symbols', '/slots/classic/images/symbols.png', 430/3, 425/3 ,9);
+  game.load.image('bg', '/games/classic-slot/images/bg.png');
+  game.load.spritesheet('symbols', '/games/classic-slot/images/symbols.png', 430/3, 425/3 ,9);
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.setScreenSize();
 }
@@ -25,7 +25,7 @@ game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
   c.anchor.set(0.5)
   symbols = [a,b,c];
 
-  $.getJSON("/api/games/slots/classic.json", function(data) {
+  $.getJSON("/api/games/classic-slot.json", function(data) {
     $.each(symbols, function(i,symbol) {
       symbol.frame = data.stops[i];
     });
@@ -43,7 +43,7 @@ function random() {
 }
 function spin() {
   random();
-  $.post("/api/games/slots/classic/spins.json", {amount: core.coin})
+  $.post("/api/games/classic-slot/spins.json", {amount: core.coin})
     .done(function(data) {
       $.each(symbols, function(i,symbol) {
         symbol.frame = data.stops[i];

@@ -29,10 +29,7 @@ var core = {
     }
   },
   updateBalance: function() {
-    $.getJSON("/api/service/wallets/0.json", function(data) {core.setBalance(data.balance)});
-  },
-  play: function() {
-    play();
+    $.getJSON("/api/wallet.json", function(data) {core.setBalance(data.balance)});
   },
   addButton: function(text, fn) {
     core.buttonTextToFn[text] = fn;
