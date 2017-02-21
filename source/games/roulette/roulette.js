@@ -207,7 +207,7 @@ function spin() {
       setPocket(data.pocket);
     })
     .fail(function(x,t,e) {
-      alert("Failed to spin: " + e);
+      alert("Failed to spin: " + x.responseJSON.message);
     });
 }
 
