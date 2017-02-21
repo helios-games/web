@@ -37,6 +37,9 @@ var core = {
     core.buttonTextToFn[text] = fn;
     $("#buttons").append("<a class=\"button\" href=\"javascript:core.buttonTextToFn['" + text + "']();\">" + text + "</a>")
   },
+  handleError: function(x,t,e) {
+    alert(x.responseJSON ? x.responseJSON : e);
+  },
   ready: function() {
     core.updateBalance();
     window.addEventListener('resize', function() {

@@ -50,9 +50,7 @@ function spin() {
       });
       core.setBalance(data.balance);
     })
-    .fail(function(x,t,e) {
-      alert("Failed to spin: " + e);
-    })
+    .fail(core.handleError)
     .always(function() {
       clearTimeout(timeout);
     })

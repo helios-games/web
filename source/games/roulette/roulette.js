@@ -158,9 +158,9 @@ function placeBet(type, location, options) {
       chips.push(chip);
       core.setBalance(data.balance)
     })
-    .fail(function(data) {
+    .fail(function(x,t,r) {
       chip.kill();
-      alert("Failed to place bet " + data);
+      core.handleError(x,t,r)
     });
 }
 
@@ -206,9 +206,7 @@ function spin() {
       core.setBalance(data.balance);
       setPocket(data.pocket);
     })
-    .fail(function(x,t,e) {
-      alert("Failed to spin: " + x.responseJSON.message);
-    });
+    .fail(core.handleError);
 }
 
 function update() {
