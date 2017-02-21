@@ -13,6 +13,7 @@ function preload() {
 }
 
 var symbols;
+var reels;
 
 function create() {
 game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
@@ -27,7 +28,9 @@ game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
 
   $.getJSON(core.api("/games/classic-slot"), function(data) {
     $.each(symbols, function(i,symbol) {
-      symbol.frame = data.stops[i];
+      reels = data.reels;
+      console.log(data)
+      symbol.frame = reels[i][data.stops[i]];
     });
   });
 
@@ -46,7 +49,7 @@ function spin() {
   $.post(core.api("/games/classic-slot/spins"), {amount: core.coin})
     .done(function(data) {
       $.each(symbols, function(i,symbol) {
-        symbol.frame = data.stops[i];
+        symbol.frame = reels[i][data.stops[i]];
       });
       core.setBalance(data.balance);
     })
