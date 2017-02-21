@@ -25,7 +25,7 @@ game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
   c.anchor.set(0.5)
   symbols = [a,b,c];
 
-  $.getJSON("/api/games/classic-slot.json", function(data) {
+  $.getJSON(core.api("/games/classic-slot"), function(data) {
     $.each(symbols, function(i,symbol) {
       symbol.frame = data.stops[i];
     });
@@ -43,7 +43,7 @@ function random() {
 }
 function spin() {
   random();
-  $.post("/api/games/classic-slot/spins.json", {amount: core.coin})
+  $.post(core.api("/games/classic-slot/spins"), {amount: core.coin})
     .done(function(data) {
       $.each(symbols, function(i,symbol) {
         symbol.frame = data.stops[i];

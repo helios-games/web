@@ -1,6 +1,8 @@
 
 var core = {
   coin: 1,
+  api: function(path) {return "/api" + path + ".json"},
+  //api: function(path) {return "http://localhost:8080/" + path},
   buttonTextToFn: {},
   setCoin: function (coin) {
     core.coin = coin;
@@ -29,7 +31,7 @@ var core = {
     }
   },
   updateBalance: function() {
-    $.getJSON("/api/wallet.json", function(data) {core.setBalance(data.balance)});
+    $.getJSON(core.api("/wallet")).done(function(data) {core.setBalance(data.balance)});
   },
   addButton: function(text, fn) {
     core.buttonTextToFn[text] = fn;

@@ -91,7 +91,7 @@ function create() {
 
   core.addButton("Spin!", spin);
 
-  $.getJSON("/api/games/roulette.json", function(data) {
+  $.getJSON(core.api("/games/roulette"), function(data) {
     setPocket(data.pocket);
     $.each(data.bets, function(i, bet) {
       switch (bet.type) {
@@ -153,7 +153,7 @@ function addChip(x, y) {
 function placeBet(type, location, options) {
   options = options || {};
   var chip = addChip(location.x, location.y);
-  $.post("/api/games/roulette/bets/" + type + ".json?amount=" + core.coin + "&number=" + options.number)
+  $.post(core.api("/games/roulette/bets/" + type) + "?amount=" + core.coin + "&number=" + options.number)
     .done(function(data) {
       chips.push(chip);
       core.setBalance(data.balance)
@@ -187,7 +187,7 @@ function placeNumberBet(pointer) {
 function spin() {
   $.ajax({
       type: "POST",
-      url: "/api/games/roulette/spins.json"
+      url: core.api("/games/roulette/spins")
     })
     .done(function(data) {
       $.each(chips, function(i, v) {
