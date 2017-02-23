@@ -11,9 +11,9 @@ deployment:
   hub:
     branch: master
     commands:
-      - docker build --rm=false -t alexec/web:1.0.0 .
+      - docker build --rm=false -t alexec/web:$CIRCLE_BUILD_NUM -t alexec/web:latest .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - docker push alexec/web:1.0.0
+      - docker push alexec/web:$CIRCLE_BUILD_NUM 
   prod:
     branch: master
     commands:
