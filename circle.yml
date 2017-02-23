@@ -9,7 +9,7 @@ test:
     - "true"
 deployment:
   hub:
-    branch: .*
+    branch: master
     commands:
       - docker build --rm=false -t alexec/web:1.0.0 .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
