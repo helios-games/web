@@ -1,3 +1,5 @@
+  services:
+    - docker
 compile:
   override:
     - bundle exec middleman build
@@ -5,6 +7,12 @@ test:
   override:
     - "true"
 deployment:
+  hub:
+    branch: .*
+    commands:
+      - docker build --rm=false -t alexec/web:1.0.0 .
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - docker push alexec/web:1.0.0
   prod:
     branch: master
     commands:
