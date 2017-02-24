@@ -27,7 +27,7 @@ spec:
     spec:
       containers:
       - name: web
-        image: alexec/web:1.0.0
+        image: alexec/web:latest
         ports:
         - containerPort: 80
         livenessProbe:
