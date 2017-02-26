@@ -15,4 +15,4 @@ deployment:
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push alexec/web
       - bundle exec middleman deploy
-      - "curl -u $CIRCLE_TOKEN: -X POST https://circleci.com/api/v1.1/proj/github/phoebus-games/smoke/tree/master"
+      - "curl -f -u $CIRCLE_TOKEN: -X POST https://circleci.com/api/v1.1/project/github/phoebus-games/smoke/tree/master"
