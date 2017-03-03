@@ -14,5 +14,5 @@ deployment:
       - docker build --rm=false -t alexec/web:$CIRCLE_BUILD_NUM -t alexec/web:latest .
       - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - docker push alexec/web
-      - bundle exec middleman deploy
+      - kubectl --replace -f web.yml
       - "curl -f -u $CIRCLE_TOKEN: -X POST https://circleci.com/api/v1.1/project/github/phoebus-games/smoke/tree/master"
