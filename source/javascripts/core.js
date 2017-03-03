@@ -31,19 +31,20 @@ var core = {
     }
   },
   updateBalance: function() {
-    $.getJSON(core.api("/wallet")).done(function(data) {core.setBalance(data.balance)});
+    return $.getJSON(core.api("/wallet")).done(function(data) {core.setBalance(data.balance)});
   },
   addButton: function(text, fn) {
     core.buttonTextToFn[text] = fn;
     $("#buttons").append("<a class=\"button\" href=\"javascript:core.buttonTextToFn['" + text + "']();\">" + text + "</a>")
   },
   handleError: function(x,t,e) {
-    alert(x.responseJSON ? x.responseJSON.message : e);
+    $("#modal").text(x.responseJSON ? x.responseJSON.message : e);
+    $("#modal").modal({"fadeDuration": 100});
   },
   ready: function() {
-    core.updateBalance();
     window.addEventListener('resize', function() {
       game.scale.setSize(window.innerWidth, window.innerHeight);
     }.bind(this));
+    return core.updateBalance();
   }
 }

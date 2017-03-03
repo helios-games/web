@@ -11,8 +11,10 @@
     <link href='//fonts.googleapis.com/css?family=Lato:300,400' rel='stylesheet' type='text/css'>
 
     <%= stylesheet_link_tag :site %>
+    <link href='/stylesheets/jquery.modal.min.css' rel='stylesheet' type='text/css'>
     <%= javascript_include_tag :all %>
     <%= javascript_include_tag "jquery-3.1.1.min.js" %>
+    <%= javascript_include_tag "jquery.modal.min.js" %>
     <%= javascript_include_tag "core.js" %>
   </head>
 
@@ -36,6 +38,7 @@
           <a class="button" href="javascript:core.setCoin(0.1);">10p</a>
           <a class="button" href="javascript:core.setCoin(1);">1.00</a>
       </div>
+      <div id="modal" class="modal" style="display:none;"></div>
     <%= yield %>
     <script>
     window.addEventListener("load",function() {
