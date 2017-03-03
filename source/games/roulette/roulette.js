@@ -111,9 +111,17 @@ function create() {
           break;
       }
     });
-    core.ready();
+    ready();
   });
+}
 
+function ready() {
+  if (chips.length > 0) {
+    core.enableButton("Spin!");
+  } else {
+    core.disableButton("Spin!");
+  }
+  core.ready();
 }
 
 function matcher(x1, y1, x2, y2) {
@@ -162,6 +170,9 @@ function placeBet(type, location, options) {
     .fail(function(x,t,r) {
       chip.kill();
       core.handleError(x,t,r)
+    })
+    .always(function() {
+      ready();
     });
 }
 
@@ -207,7 +218,7 @@ function spin() {
     })
     .fail(core.handleError)
     .always(function() {
-      core.ready();
+      ready();
     });
 }
 
