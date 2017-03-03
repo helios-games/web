@@ -1,3 +1,13 @@
+String.prototype.hashCode = function() {
+  var hash = 0, i, chr, len;
+  if (this.length === 0) return hash;
+  for (i = 0, len = this.length; i < len; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; // Convert to 32bit integer
+  }
+  return hash;
+};
 
 var core = {
   coin: 1,
@@ -34,8 +44,17 @@ var core = {
     return $.getJSON(core.api("/wallet")).done(function(data) {core.setBalance(data.balance)});
   },
   addButton: function(text, fn) {
-    core.buttonTextToFn[text] = fn;
-    $("#buttons").append("<a class=\"button\" href=\"javascript:core.buttonTextToFn['" + text + "']();\">" + text + "</a>")
+    var id = text.hashCode();
+    core.buttonTextToFn[text] = function() {
+      if (!$("#" + id).hasClass("disabled")) {fn();}
+    };
+    $("#buttons").append("<a id=\"" + id + "\"class=\"button disabled\" href=\"javascript:core.buttonTextToFn['" + text + "']();\">" + text + "</a>")
+  },
+  disableButton: function(id) {
+    $("#" + id.hashCode()).addClass("disabled");
+  },
+  enableButton: function(id) {
+    $("#" + id.hashCode()).removeClass("disabled");
   },
   handleError: function(x,t,e) {
     $("#modal").text(x.responseJSON ? x.responseJSON.message : e);
@@ -45,6 +64,9 @@ var core = {
     window.addEventListener('resize', function() {
       game.scale.setSize(window.innerWidth, window.innerHeight);
     }.bind(this));
+    $("#coin0").removeClass("disabled");
+    $("#coin1").removeClass("disabled");
+    $("#coin2").removeClass("disabled");
     return core.updateBalance();
   }
 }

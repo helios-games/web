@@ -110,6 +110,7 @@ function create() {
           break;
       }
     });
+    core.enableButton("Spin!");
     core.ready();
   });
 

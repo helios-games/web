@@ -33,6 +33,7 @@ game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
       symbol.frame = reels[i][data.stops[i]];
     });
     core.ready();
+    core.enableButton("Spin!");
   });
 
   core.addButton("Spin!", spin);
