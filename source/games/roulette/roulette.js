@@ -93,6 +93,7 @@ function create() {
 
   $.getJSON(core.api("/games/roulette"), function(data) {
     setPocket(data.pocket);
+    core.updateBalance(data.wallet.balance)
     $.each(data.bets, function(i, bet) {
       switch (bet.type) {
         case "number":
@@ -110,7 +111,6 @@ function create() {
           break;
       }
     });
-    core.enableButton("Spin!");
     core.ready();
   });
 
@@ -186,6 +186,7 @@ function placeNumberBet(pointer) {
 }
 
 function spin() {
+  core.unready();
   $.post(core.api("/games/roulette/spins"), {amount: core.coin})
     .done(function(data) {
       $.each(chips, function(i, v) {
@@ -204,7 +205,10 @@ function spin() {
       core.setBalance(data.balance);
       setPocket(data.pocket);
     })
-    .fail(core.handleError);
+    .fail(core.handleError)
+    .always(function() {
+      core.ready();
+    });
 }
 
 function update() {

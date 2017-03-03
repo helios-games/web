@@ -27,13 +27,13 @@ game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
   symbols = [a,b,c];
 
   $.getJSON(core.api("/games/classic-slot"), function(data) {
+    core.updateBalance(data.wallet.balance)
     $.each(symbols, function(i,symbol) {
       reels = data.reels;
       console.log(data)
       symbol.frame = reels[i][data.stops[i]];
     });
     core.ready();
-    core.enableButton("Spin!");
   });
 
   core.addButton("Spin!", spin);
@@ -46,6 +46,7 @@ function random() {
   timeout = setTimeout(random, 100);
 }
 function spin() {
+  core.unready();
   random();
   $.post(core.api("/games/classic-slot/spins"), {amount: core.coin})
     .done(function(data) {
@@ -57,6 +58,7 @@ function spin() {
     .fail(core.handleError)
     .always(function() {
       clearTimeout(timeout);
+      core.ready();
     })
 }
 

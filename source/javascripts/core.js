@@ -13,7 +13,7 @@ var core = {
   coin: 1,
   api: function(path) {return "/api" + path + ".json"},
   //api: function(path) {return "http://localhost:8080/" + path},
-  buttonTextToFn: {},
+  buttons: {},
   setCoin: function (coin) {
     core.coin = coin;
   },
@@ -45,10 +45,10 @@ var core = {
   },
   addButton: function(text, fn) {
     var id = text.hashCode();
-    core.buttonTextToFn[text] = function() {
+    core.buttons[text] = function() {
       if (!$("#" + id).hasClass("disabled")) {fn();}
     };
-    $("#buttons").append("<a id=\"" + id + "\"class=\"button disabled\" href=\"javascript:core.buttonTextToFn['" + text + "']();\">" + text + "</a>")
+    $("#buttons").append("<a id=\"" + id + "\"class=\"button disabled\" href=\"javascript:core.buttons['" + text + "']();\">" + text + "</a>")
   },
   disableButton: function(id) {
     $("#" + id.hashCode()).addClass("disabled");
@@ -60,13 +60,26 @@ var core = {
     $("#modal").text(x.responseJSON && x.responseJSON.message ? x.responseJSON.message : e);
     $("#modal").modal({"fadeDuration": 100});
   },
+  unready: function() {
+    $("#coin0").addClass("disabled");
+    $("#coin1").addClass("disabled");
+    $("#coin2").addClass("disabled");
+    for (var id in core.buttons) {
+      core.disableButton(id);
+    }
+  },
   ready: function() {
-    window.addEventListener('resize', function() {
-      game.scale.setSize(window.innerWidth, window.innerHeight);
-    }.bind(this));
     $("#coin0").removeClass("disabled");
     $("#coin1").removeClass("disabled");
     $("#coin2").removeClass("disabled");
-    return core.updateBalance();
+    for (var id in core.buttons) {
+      core.enableButton(id);
+    }
   }
 }
+
+$(document).ready(function() {
+  window.addEventListener('resize', function() {
+    game.scale.setSize(window.innerWidth, window.innerHeight);
+  }.bind(this));
+});
