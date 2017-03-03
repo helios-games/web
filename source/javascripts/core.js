@@ -57,7 +57,7 @@ var core = {
     $("#" + id.hashCode()).removeClass("disabled");
   },
   handleError: function(x,t,e) {
-    $("#modal").text(x.responseJSON ? x.responseJSON.message : e);
+    $("#modal").text(x.responseJSON && x.responseJSON.message ? x.responseJSON.message : e);
     $("#modal").modal({"fadeDuration": 100});
   },
   ready: function() {

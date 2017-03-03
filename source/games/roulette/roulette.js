@@ -154,7 +154,7 @@ function addChip(x, y) {
 function placeBet(type, location, options) {
   options = options || {};
   var chip = addChip(location.x, location.y);
-  $.post(core.api("/games/roulette/bets/" + type) + "?amount=" + core.coin + "&number=" + options.number)
+  $.post(core.api("/games/roulette/bets/" + type), {"amount": core.coin, "number": options.number})
     .done(function(data) {
       chips.push(chip);
       core.setBalance(data.balance)
