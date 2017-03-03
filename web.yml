@@ -6,10 +6,9 @@ metadata:
   labels:
     app: web
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - port: 80
-    nodePort: 30002
     name: web
   selector:
     app: web
@@ -28,11 +27,27 @@ spec:
       containers:
       - name: web
         image: alexec/web:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80
+          initialDelaySeconds: 15
+          periodSeconds: 15
         livenessProbe:
           httpGet:
             path: /
             port: 80
           initialDelaySeconds: 15
-          periodSeconds: 3
+          periodSeconds: 15
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: web-ingress
+spec:
+  backend:
+    serviceName: web
+    servicePort: 80 
