@@ -32,10 +32,10 @@ game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
       console.log(data)
       symbol.frame = reels[i][data.stops[i]];
     });
+    core.ready();
   });
 
   core.addButton("Spin!", spin);
-  core.ready();
 }
 var timeout;
 function random() {

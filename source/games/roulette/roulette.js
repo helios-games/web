@@ -109,10 +109,10 @@ function create() {
           chips.push(addChip(black.x + black.w / 2, black.y + black.h / 2));
           break;
       }
-    })
+    });
+    core.ready();
   });
 
-  core.ready();
 }
 
 function matcher(x1, y1, x2, y2) {
