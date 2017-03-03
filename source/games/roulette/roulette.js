@@ -93,7 +93,6 @@ function create() {
 
   $.getJSON(core.api("/games/roulette"), function(data) {
     setPocket(data.pocket);
-    core.updateBalance(data.wallet.balance)
     $.each(data.bets, function(i, bet) {
       switch (bet.type) {
         case "number":

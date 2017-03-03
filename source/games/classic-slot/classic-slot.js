@@ -27,7 +27,7 @@ game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
   symbols = [a,b,c];
 
   $.getJSON(core.api("/games/classic-slot"), function(data) {
-    core.updateBalance(data.wallet.balance)
+
     $.each(symbols, function(i,symbol) {
       reels = data.reels;
       console.log(data)
