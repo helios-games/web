@@ -48,7 +48,7 @@ function random() {
 function spin() {
   core.unready();
   random();
-  $.post(core.api("/games/classic-slot/spins"), {amount: core.coin})
+  $.post({url: core.api("/games/classic-slot/spins"), data: {amount: core.coin}, contentType: 'application/json'})
     .done(function(data) {
       $.each(symbols, function(i,symbol) {
         symbol.frame = reels[i][data.stops[i]];

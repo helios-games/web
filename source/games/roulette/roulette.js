@@ -161,7 +161,7 @@ function addChip(x, y) {
 function placeBet(type, location, options) {
   options = options || {};
   var chip = addChip(location.x, location.y);
-  $.post(core.api("/games/roulette/bets/" + type), {"amount": core.coin, "number": options.number})
+  $.post({url: core.api("/games/roulette/bets/" + type), data: {"amount": core.coin, "number": options.number}, contentType: 'application/json'})
     .done(function(data) {
       chips.push(chip);
       core.setBalance(data.balance)
@@ -197,7 +197,7 @@ function placeNumberBet(pointer) {
 
 function spin() {
   core.unready();
-  $.post(core.api("/games/roulette/spins"), {amount: core.coin})
+  $.post({url: core.api("/games/roulette/spins"), data: {amount: core.coin}, contentType: 'application/json'})
     .done(function(data) {
       $.each(chips, function(i, v) {
 
