@@ -14,9 +14,10 @@ function preload() {
 }
 
 var sprites = [];
-var reels;
-var geo;
-var stops = [];
+var reels = [[],[],[]];
+var geo = [];
+var stops = [0,0,0];
+var targetStops = [-1,-1,-1];
 
 function create() {
   game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
@@ -28,7 +29,7 @@ function create() {
   ];
 
   $.getJSON(core.api("/games/classic-slot"), function(data) {
-    stops = data.stops;
+    targetStops = data.stops;
     reels = data.reels;
     for (var reelIndex = 0; reelIndex < data.reels.length; reelIndex++) {
       var reel = reels[reelIndex];
@@ -51,30 +52,32 @@ function create() {
 
   core.addButton("Spin!", spin);
 }
-var timeout;
-function random() {
-  $.each(stops, function(i, stops) {
-    stops[i] = (stops[i] + 1) % reels[i].length;
-  });
-  timeout = setTimeout(random, 100);
-}
+var spinStart;
 function spin() {
   core.unready();
-  random();
+  spinStart = new Date()
+  targetStops = [-1,-1,-1];
   $.post({url: core.api("/games/classic-slot/spins"), data: JSON.stringify({amount: core.coin}), contentType: 'application/json'})
     .done(function(data) {
-      clearTimeout();
-      stops = data.stops;
+      setTimeout(function() {targetStops = data.stops},
+        Math.min(3000, new Date().getTime() - spinStart.getTime()));
       core.setBalance(data.balance);
     })
     .fail(core.handleError)
     .always(function() {
-      clearTimeout(timeout);
       core.ready();
     })
 }
 
 function update() {
+  for (var i = 0; i < stops.length; i++){
+    if (reels[i].length > 0 && targetStops[i] != stops[i]) {
+      stops[i] = (stops[i] + 1) % reels[i].length;
+      if (targetStops[i] != stops[i]) {
+        break;
+      }
+    }
+  }
   $.each(sprites, function(i, sprite) {
     sprite.reposition();
   });
