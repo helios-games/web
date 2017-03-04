@@ -29,7 +29,7 @@ var core = {
     return parseFloat($("#balance").text());
   },
   setBalance: function (amount, step) {
-    var balance = core.getBalance();
+    var balance = this.getBalance();
     if (isNaN(balance) || amount < balance) {
       $("#balance").text(amount.toFixed(2));
     } else {
@@ -74,9 +74,6 @@ var core = {
     $("#coin2").removeClass("disabled");
     for (var id in core.buttons) {
       core.enableButton(id);
-    }
-    if (isNaN(core.getBalance())) {
-      core.updateBalance();
     }
   }
 }

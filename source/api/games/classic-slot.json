@@ -1,8 +1,5 @@
 {
     "nextStops": {},
-    "wallet": {
-        "balance": 984
-    },
     "reels": [
         [
             3,
@@ -62,8 +59,8 @@
     "height": 1,
     "stops": [
         0,
-        0,
-        0
+        5,
+        3
     ],
     "window": [
         [

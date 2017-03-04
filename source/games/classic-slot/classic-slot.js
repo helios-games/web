@@ -7,32 +7,45 @@ var game = new Phaser.Game(core.canvas.getWidth(), core.canvas.getHeight(), Phas
 
 function preload() {
   game.load.image('bg', '/games/classic-slot/images/bg.png');
-  game.load.spritesheet('symbols', '/games/classic-slot/images/symbols.png', 430/3, 425/3 ,9);
+  game.load.image('fg', '/games/classic-slot/images/fg.png');
+  game.load.spritesheet('symbols', '/games/classic-slot/images/symbols.png', 420/3, 420/3 ,9);
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.setScreenSize();
 }
 
-var symbols;
+var sprites = [];
 var reels;
+var geo;
+var stops = [];
 
 function create() {
-game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
+  game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
 
-  var a = game.add.sprite(game.world.centerX - 170,game.world.centerY,'symbols')
-  a.anchor.set(0.5)
-  var b = game.add.sprite(game.world.centerX ,game.world.centerY,'symbols')
-  b.anchor.set(0.5)
-  var c = game.add.sprite(game.world.centerX +170,game.world.centerY,'symbols')
-  c.anchor.set(0.5)
-  symbols = [a,b,c];
+  geo = [
+    {x: game.world.centerX - 170, y: game.world.centerY},
+    {x: game.world.centerX, y: game.world.centerY},
+    {x: game.world.centerX + 170, y: game.world.centerY}
+  ];
 
   $.getJSON(core.api("/games/classic-slot"), function(data) {
-
-    $.each(symbols, function(i,symbol) {
-      reels = data.reels;
-      console.log(data)
-      symbol.frame = reels[i][data.stops[i]];
-    });
+    stops = data.stops;
+    reels = data.reels;
+    for (var reelIndex = 0; reelIndex < data.reels.length; reelIndex++) {
+      var reel = reels[reelIndex];
+      for (var stop = 0; stop < reel.length; stop++) {
+        var sprite = game.add.sprite(geo[reelIndex].x,geo[reelIndex].y,'symbols')
+        sprite.anchor.set(0.5)
+        sprite.frame = reel[stop];
+        sprite.reelIndex = reelIndex;
+        sprite.stop  = stop;
+        sprite.reposition = function() {
+          this.y = geo[this.reelIndex].y + (this.stop - stops[this.reelIndex]) % reels[this.reelIndex].length * 130;
+        };
+        sprite.reposition();
+        sprites.push(sprite);
+      }
+    };
+    game.add.image(game.world.centerX ,game.world.centerY, 'fg').anchor.set(0.5)
     core.ready();
   });
 
@@ -40,8 +53,8 @@ game.add.image(game.world.centerX ,game.world.centerY, 'bg').anchor.set(0.5)
 }
 var timeout;
 function random() {
-  $.each(symbols, function(i,symbol) {
-    symbol.frame = Math.floor(Math.random() * 9)
+  $.each(stops, function(i, stops) {
+    stops[i] = (stops[i] + 1) % reels[i].length;
   });
   timeout = setTimeout(random, 100);
 }
@@ -50,9 +63,8 @@ function spin() {
   random();
   $.post({url: core.api("/games/classic-slot/spins"), data: JSON.stringify({amount: core.coin}), contentType: 'application/json'})
     .done(function(data) {
-      $.each(symbols, function(i,symbol) {
-        symbol.frame = reels[i][data.stops[i]];
-      });
+      clearTimeout();
+      stops = data.stops;
       core.setBalance(data.balance);
     })
     .fail(core.handleError)
@@ -63,7 +75,9 @@ function spin() {
 }
 
 function update() {
-
+  $.each(sprites, function(i, sprite) {
+    sprite.reposition();
+  });
 }
 
 function render() {
