@@ -115,12 +115,12 @@ function create() {
 }
 
 function ready() {
+  core.ready();
   if (chips.length > 0) {
     core.enableButton("Spin!");
   } else {
     core.disableButton("Spin!");
   }
-  core.ready();
 }
 
 function matcher(x1, y1, x2, y2) {
