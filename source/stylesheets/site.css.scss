@@ -51,6 +51,7 @@ a.button {
   }
 }
 a.button.disabled {
+  border-color:daren(gold, 50%);
   @include gradient(gray, darken(gray, 20%));
 }
 
