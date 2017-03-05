@@ -8,6 +8,7 @@ var game = new Phaser.Game(core.canvas.getWidth(), core.canvas.getHeight(), Phas
 function preload() {
   game.load.image('bg', '/games/classic-slot/images/bg.png');
   game.load.image('fg', '/games/classic-slot/images/fg.png');
+  game.load.image('coin', '/games/classic-slot/images/coin.png');
   game.load.spritesheet('symbols', '/games/classic-slot/images/symbols.png', 420/3, 420/3 ,9);
   game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL;
   game.scale.setScreenSize();
@@ -61,6 +62,20 @@ function spin() {
     .done(function(data) {
       setTimeout(function() {targetStops = data.stops},
         Math.min(3000, new Date().getTime() - spinStart.getTime()));
+
+        var win = (data.balance - core.getBalance()) > 0
+
+        $.each(geo, function(i, point) {
+
+          var emitter = game.add.emitter(0, 0, 100);
+          emitter.makeParticles('coin');
+          emitter.gravity = 1000;
+
+          emitter.x = point.x;
+          emitter.y = point.y;
+          emitter.start(true, 1000, null, 5);
+      });
+
       core.setBalance(data.balance);
     })
     .fail(core.handleError)
