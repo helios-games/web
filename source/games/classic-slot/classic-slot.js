@@ -65,6 +65,7 @@ function spin() {
 
         var win = (data.balance - core.getBalance()) > 0
 
+        if(win){
         $.each(geo, function(i, point) {
 
           var emitter = game.add.emitter(0, 0, 100);
@@ -75,6 +76,7 @@ function spin() {
           emitter.y = point.y;
           emitter.start(true, 1000, null, 5);
       });
+    }
 
       core.setBalance(data.balance);
     })
