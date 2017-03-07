@@ -49,7 +49,8 @@ function create() {
     };
     game.add.image(game.world.centerX ,game.world.centerY, 'fg').anchor.set(0.5)
     core.ready();
-  });
+  })
+  .fail(core.handleError);
 
   core.addButton("Spin!", spin);
 }

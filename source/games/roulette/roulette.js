@@ -111,7 +111,8 @@ function create() {
       }
     });
     ready();
-  });
+  })
+  .fail(core.handleError);
 }
 
 function ready() {
