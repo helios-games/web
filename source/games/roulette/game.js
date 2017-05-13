@@ -74,14 +74,16 @@ function setPocket(number) {
 
 function create() {
 
+  core.init();
+
   bg = game.add.sprite(400, 225, 'bg');
 
   bg.anchor.set(0.5);
 
-  var x = (800-game.width)/2;
-  var y = (450-game.height)/2;
+  var x = (800 - game.width) / 2;
+  var y = (450 - game.height) / 2;
 
- game.world.setBounds(x, y, 0, 0);
+  game.world.setBounds(x, y, 0, 0);
 
   bg.inputEnabled = true;
   bg.events.onInputDown.add(listener, this);
@@ -92,27 +94,27 @@ function create() {
   core.addButton("Spin!", spin);
 
   $.getJSON(core.api("/games/roulette"), function(data) {
-    setPocket(data.pocket);
-    $.each(data.bets, function(i, bet) {
-      switch (bet.type) {
-        case "number":
-          console.log("bet.pocket " + bet.pocket)
-          var x = numbers.x + ((bet.pocket - 1) / 3 + 0.5) * (numbers.w / 12);
-          var y = numbers.y + (2 - (bet.pocket - 1) % 3 + 0.5) * (numbers.h / 3);
+      setPocket(data.pocket);
+      $.each(data.bets, function(i, bet) {
+        switch (bet.type) {
+          case "number":
+            console.log("bet.pocket " + bet.pocket)
+            var x = numbers.x + ((bet.pocket - 1) / 3 + 0.5) * (numbers.w / 12);
+            var y = numbers.y + (2 - (bet.pocket - 1) % 3 + 0.5) * (numbers.h / 3);
 
-          chips.push(addChip(x, y));
-          break;
-        case "red":
-          chips.push(addChip(red.x + red.w / 2, red.y + red.h / 2));
-          break;
-        case "black":
-          chips.push(addChip(black.x + black.w / 2, black.y + black.h / 2));
-          break;
-      }
-    });
-    ready();
-  })
-  .fail(core.handleError);
+            chips.push(addChip(x, y));
+            break;
+          case "red":
+            chips.push(addChip(red.x + red.w / 2, red.y + red.h / 2));
+            break;
+          case "black":
+            chips.push(addChip(black.x + black.w / 2, black.y + black.h / 2));
+            break;
+        }
+      });
+      ready();
+    })
+    .fail(core.handleError);
 }
 
 function ready() {
@@ -131,7 +133,10 @@ function matcher(x1, y1, x2, y2) {
 }
 
 function listener(sprite) {
-  var pointer={x:game.input.x-game.world.x,y:game.input.y-game.world.y};
+  var pointer = {
+    x: game.input.x - game.world.x,
+    y: game.input.y - game.world.y
+  };
   $.each(
     [
       [matcher(red.x, red.y, red.r, red.b), placeRedBet],
@@ -162,14 +167,21 @@ function addChip(x, y) {
 function placeBet(type, location, options) {
   options = options || {};
   var chip = addChip(location.x, location.y);
-  $.post({url: core.api("/games/roulette/bets/" + type), data: JSON.stringify({"amount": core.coin, "number": options.number}), contentType: 'application/json'})
+  $.post({
+      url: core.api("/games/roulette/bets/" + type),
+      data: JSON.stringify({
+        "amount": core.coin,
+        "number": options.number
+      }),
+      contentType: 'application/json'
+    })
     .done(function(data) {
       chips.push(chip);
       core.setBalance(data.balance)
     })
-    .fail(function(x,t,r) {
+    .fail(function(x, t, r) {
       chip.kill();
-      core.handleError(x,t,r)
+      core.handleError(x, t, r)
     })
     .always(function() {
       ready();
@@ -198,7 +210,11 @@ function placeNumberBet(pointer) {
 
 function spin() {
   core.unready();
-  $.post({url: core.api("/games/roulette/spins"), data: JSON.stringify({}), contentType: 'application/json'})
+  $.post({
+      url: core.api("/games/roulette/spins"),
+      data: JSON.stringify({}),
+      contentType: 'application/json'
+    })
     .done(function(data) {
       $.each(chips, function(i, v) {
 
