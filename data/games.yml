@@ -1,4 +1,4 @@
-- name: classic-slot
-  title: Classic slot
-- name: roulette
+classic-slot:
+  title: Classic Slot
+roulette:
   title: Roulette
