@@ -7,7 +7,7 @@ title: Welcome to Phoebus Games
     <%= image_tag "logo.png" %>
   </div>
   <p>
-    <% data.games.each do |game| %>
+    <% data.games.each do |k, game| %>
       <a href="/games/<%= game.name %>/" class="button"><%= game.title %></a>
      <% end %>
   </p>
