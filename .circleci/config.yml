@@ -6,6 +6,13 @@ jobs:
       - image: circleci/ruby:2.4.1-node
     steps:
       - checkout
+      - type: cache-restore
+        key: bundle-{{ checksum "Gemfile.lock" }}
+      - run: bundle install --path vendor/bundle
+      - type: cache-save
+        key: bundle-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
       - run: bundle exec middleman build
       - run: docker build --rm=false -t alexec/web:latest .
       - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
