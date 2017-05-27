@@ -3,7 +3,7 @@ jobs:
   build:
     working_directory: ~/work
     docker:
-      - image: "circleci/openjdk:8"
+      - image: circleci/ruby:2.4.1-node
     steps:
       - checkout
       - run: bundle exec middleman build
