@@ -15,7 +15,7 @@ jobs:
           - vendor/bundle
       - run: bundle exec middleman build
       - setup_remote_docker
-      - run: docker build --rm=false -t alexec/web:latest .
       - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
-      - run: docker push alexec/web
-      - run: "curl -fv -u $CIRCLE_TOKEN: -X POST -d '{\"build_parameters\": {\"COMPONENT\": \"web\"}}' -H 'Content-Type: application/json' https://circleci.com/api/v1.1/project/github/phoebus-games/deploy/tree/master"
+      - run: docker build --rm=false -t alexec/wallet:$CIRCLE_SHA1 .
+      - run: docker push alexec/wallet
+      - run: ./deploy.sh
