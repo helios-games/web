@@ -23,7 +23,7 @@ var core = {
         core._handleError(x, t, e);
       })
       .always(function() {
-        core.__ready();
+        core._ready();
       });
   },
   post: function(path, data, done, fail) {
