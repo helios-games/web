@@ -39,7 +39,7 @@ var core = {
         core._handleError(x, t, e);
       })
       .always(function() {
-        core.ready();
+        core._ready();
       });
   },
   buttons: {},
