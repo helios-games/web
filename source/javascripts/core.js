@@ -18,9 +18,9 @@ var core = {
         url: path
       })
       .done(done)
-      .fail(function(x, t, r) {
+      .fail(function(x, t, e) {
         (fail || function() {})();
-        alert(r);
+        core._handleError(x, t, e);
       })
       .always(function() {
         core.__ready();
@@ -34,9 +34,9 @@ var core = {
         contentType: 'application/json'
       })
       .done(done)
-      .fail(function(x, t, r) {
+      .fail(function(x, t, e) {
         (fail || function() {})();
-        alert(r);
+        core._handleError(x, t, e);
       })
       .always(function() {
         core.ready();
@@ -72,9 +72,10 @@ var core = {
     }
   },
   updateBalance: function() {
-    return $.getJSON(core("/api/wallet")).done(function(data) {
-      core.setBalance(data.balance)
-    });
+    core.get("/api/wallet",
+      function(data) {
+        core.setBalance(data.balance)
+      });
   },
   addButton: function(text, fn) {
     var id = text.hashCode();
