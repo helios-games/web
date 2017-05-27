@@ -41,7 +41,7 @@
       <div id="modal" class="modal" style="display:none;"></div>
     <%= yield %>
     <script defer>
-      game.init("canvas", core.canvas.getWidth(), core.canvas.getHeight());
+      setTimeout(function() {game.init("canvas", core.canvas.getWidth(), core.canvas.getHeight());}, 1000);
     </script>
   </body>
 </html>
