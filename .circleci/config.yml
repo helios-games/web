@@ -14,6 +14,7 @@ jobs:
         paths:
           - vendor/bundle
       - run: bundle exec middleman build
+      - setup_remote_docker
       - run: docker build --rm=false -t alexec/web:latest .
       - run: docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
       - run: docker push alexec/web
