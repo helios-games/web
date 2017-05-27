@@ -19,3 +19,5 @@ jobs:
       - run: docker build --rm=false -t alexec/web:$CIRCLE_SHA1 .
       - run: docker push alexec/web
       - run: ./deploy.sh
+      - run: "curl -f -u $CIRCLE_TOKEN: -X POST https://circleci.com/api/v1.1/project/github/phoebus-games/roulette-assets-default/tree/master"
+      - run: "curl -f -u $CIRCLE_TOKEN: -X POST https://circleci.com/api/v1.1/project/github/phoebus-games/classic-slot-assets-default/tree/master"

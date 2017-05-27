@@ -119,11 +119,6 @@ var core = {
   }
 }
 
-$(document).ready(function() {
-  window.addEventListener('resize', function() {
-    game.scale.setSize(window.innerWidth, window.innerHeight);
-  }.bind(this));
-});
 window.addEventListener("load", function() {
   setTimeout(function() {
     // This hides the address bar:
