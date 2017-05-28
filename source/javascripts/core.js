@@ -113,9 +113,6 @@ var core = {
     for (var id in core.buttons) {
       core.enableButton(id);
     }
-    if (isNaN(core.getBalance())) {
-      core.updateBalance();
-    }
   }
 }
 
